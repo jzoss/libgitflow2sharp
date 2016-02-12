@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibGit2FlowSharp", "LibGit2FlowSharp\LibGit2FlowSharp.csproj", "{13E67DB9-31F4-4137-B905-0D83A6FDF4DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibGit2FlowSharp.Tests", "LibGit2FlowSharp.Tests\LibGit2FlowSharp.Tests.csproj", "{52A72124-405C-4D8D-80D5-CD8BACCCB3A9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13E67DB9-31F4-4137-B905-0D83A6FDF4DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E67DB9-31F4-4137-B905-0D83A6FDF4DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E67DB9-31F4-4137-B905-0D83A6FDF4DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E67DB9-31F4-4137-B905-0D83A6FDF4DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52A72124-405C-4D8D-80D5-CD8BACCCB3A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52A72124-405C-4D8D-80D5-CD8BACCCB3A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52A72124-405C-4D8D-80D5-CD8BACCCB3A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52A72124-405C-4D8D-80D5-CD8BACCCB3A9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
