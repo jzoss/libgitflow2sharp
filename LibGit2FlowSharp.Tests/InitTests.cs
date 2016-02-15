@@ -15,7 +15,7 @@ namespace LibGit2FlowSharp.Tests
         [Fact]
         public void Test1()
         {
-            using (var repo = new Repository("c:\test"))
+            using (var repo = new Repository(@"c:\test"))
             {
 
             }
