@@ -7,10 +7,10 @@ using LibGit2Sharp;
 
 namespace LibGit2FlowSharp
 {
-    public class GitFlow
+    public class Flow
     {
         internal Repository Repository { get; private set; }
-        public GitFlow(Repository repository)
+        public Flow(Repository repository)
         {
             Repository = repository;
         }
