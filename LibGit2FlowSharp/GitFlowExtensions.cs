@@ -9,6 +9,10 @@ namespace LibGit2FlowSharp
 {
     public static partial class GitFlowExtensions
     {
+        public enum FlowBranch
+        {
+            Master, Develop, Feature, HotFix, Release, Production, Support
+        }
         public static Flow Flow(this Repository repository)
         {
             return new Flow(repository);

@@ -21,7 +21,7 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("13e67db9-31f4-4137-b905-0d83a6fdf4db")]
-
+[assembly: InternalsVisibleTo("LibGit2FlowSharp.Tests")]
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version
