@@ -11,16 +11,17 @@ namespace LibGit2FlowSharp
     {
         public static bool IsOnMasterBranch(this Flow gitflow)
         {
-            var repo = gitflow.Repository;
-
-            if (!gitflow.IsInitialized())
-                return false;
-            var featurePrefix = repo.Config.Get<string>("gitflow.prefix.master");
-            if (featurePrefix == null)
-                return false;
-            return repo.Head.FriendlyName.StartsWith(featurePrefix.Value);
+           return IsOnSpecifiedBranch(gitflow,FlowBranch.Master);
         }
 
+        internal static bool IsOnSpecifiedBranch(this Flow gitFlow, FlowBranch branch)
+        {
+            var repo = gitFlow.Repository;
+            if (!gitFlow.IsInitialized())
+                return false;
+            var featurePrefix = repo.Config.Get<string>($"gitflow.prefix.{Enum.GetName(typeof(FlowBranch),branch)?.ToLower()}");
+            return featurePrefix != null && repo.Head.FriendlyName.StartsWith(featurePrefix.Value);
+        }
 
         public static string CurrentBranchLeafName(this Flow gitflow)
         {
