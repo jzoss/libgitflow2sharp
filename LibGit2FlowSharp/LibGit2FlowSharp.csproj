@@ -47,15 +47,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GitFlow.cs" />
+    <Compile Include="Flow.cs" />
     <Compile Include="GitFlowExtensions.cs" />
+    <Compile Include="GitFlowExtensions.Develop.cs" />
+    <Compile Include="GitFlowExtensions.Production.cs" />
+    <Compile Include="GitFlowExtensions.Release.cs" />
+    <Compile Include="GitFlowExtensions.Support.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GitFlowExtensions.Feature.cs" />
     <Compile Include="GitFlowExtensions.Init.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="GitFlowExtensions.HotFix.cs" />
+    <Compile Include="GitFlowExtensions.Common.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
