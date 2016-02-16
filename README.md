@@ -7,11 +7,11 @@ There is no need to install the GitFlow extensions for this to work.
 
 Usage:
 
-'''c#
+```c#
 
 using (var repo = new Repository(pathtorepo))
 {
      repo.Flow().StartFeature("featurename");
 }
 
-'''
+```
