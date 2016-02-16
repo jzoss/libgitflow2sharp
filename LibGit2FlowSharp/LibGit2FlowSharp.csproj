@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="GitFlowExtensions.Feature.cs" />
     <Compile Include="GitFlowExtensions.Init.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
