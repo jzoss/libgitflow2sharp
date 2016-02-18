@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibGit2Sharp;
+using LibGit2FlowSharp.Enums;
 
 namespace LibGit2FlowSharp
 {
@@ -11,16 +12,21 @@ namespace LibGit2FlowSharp
     {
         public static bool IsOnMasterBranch(this Flow gitflow)
         {
-           return IsOnSpecifiedBranch(gitflow,FlowBranch.Master);
+           return IsOnSpecifiedBranch(gitflow, GitFlowSetting.Master);
         }
 
-        internal static bool IsOnSpecifiedBranch(this Flow gitFlow, FlowBranch branch)
+        internal static bool IsOnSpecifiedBranch(this Flow gitFlow, GitFlowSetting setting)
         {
             var repo = gitFlow.Repository;
             if (!gitFlow.IsInitialized())
                 return false;
-            var featurePrefix = repo.Config.Get<string>($"gitflow.prefix.{Enum.GetName(typeof(FlowBranch),branch)?.ToLower()}");
+            var featurePrefix = repo.Config.Get<string>(GetConfigKey(setting));
             return featurePrefix != null && repo.Head.FriendlyName.StartsWith(featurePrefix.Value);
+        }
+
+        internal static string GetConfigKey(GitFlowSetting setting)
+        {
+            return setting.GetAttribute<GitFlowConfigAttribute>().ConfigName;
         }
 
         public static string CurrentBranchLeafName(this Flow gitflow)

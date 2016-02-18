@@ -47,12 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\EnumExtensions.cs" />
+    <Compile Include="Enums\GitFlowSetting.cs" />
     <Compile Include="Flow.cs" />
     <Compile Include="GitFlowExtensions.cs" />
     <Compile Include="GitFlowExtensions.Develop.cs" />
     <Compile Include="GitFlowExtensions.Production.cs" />
     <Compile Include="GitFlowExtensions.Release.cs" />
     <Compile Include="GitFlowExtensions.Support.cs" />
+    <Compile Include="GitFlowRepoSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +65,7 @@
     <Compile Include="GitFlowExtensions.Common.cs" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

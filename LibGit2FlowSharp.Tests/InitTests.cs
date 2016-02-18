@@ -12,12 +12,13 @@ namespace LibGit2FlowSharp.Tests
     public class InitTests
     {
         private Flow _testFlow;
-        private const string Testpath = @"c:\test";
+        private const string Testpath = @"C:\test\";
 
         public InitTests()
         {   
             // could do the          
         }
+
 
         [Fact]
         public void TestFolderIsAGitRepository() 
@@ -25,6 +26,21 @@ namespace LibGit2FlowSharp.Tests
             using (var repo = new Repository(Testpath))
             {
             }
+
+        }
+
+        [Fact]
+        public void InitFlowWithDefaultValues()
+        {
+            using (var repo = new Repository(Testpath))
+            {
+                repo.Flow().Init(new GitFlowRepoSettings());
+
+                //TODO Finish 
+                Assert.Equal(repo.Config.Get<string>("gitflow.branch.master").Value,"master");
+                Assert.Equal(repo.Config.Get<string>("gitflow.branch.develop").Value, "develop");
+            }
+           
         }
 
         [Fact]

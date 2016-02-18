@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibGit2FlowSharp.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace LibGit2FlowSharp
     {
         public static bool IsOnSupportBranch(this Flow gitFlow)
         {
-            return IsOnSpecifiedBranch(gitFlow, FlowBranch.Develop);
+            return IsOnSpecifiedBranch(gitFlow, GitFlowSetting.Develop);
         }
     }
 }
