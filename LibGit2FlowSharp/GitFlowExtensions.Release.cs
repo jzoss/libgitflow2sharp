@@ -13,11 +13,7 @@ namespace LibGit2FlowSharp
 
         public static bool StartNewRelease(this Flow gitFlow, string nameOfRelease)
         {
-            if (!gitFlow.IsOnDevelopBranch())
-                gitFlow.Repository.Checkout(gitFlow.Repository.Branches[gitFlow.GetPrefixByBranch(FlowBranch.Develop)]);
-        
-            var newBranch = gitFlow.Repository.CreateBranch($"{gitFlow.GetPrefixByBranch(FlowBranch.Feature)}/{nameOfRelease}");
-            return true;
+            throw new NotImplementedException();
         }
 
         public static bool CompleteRelease(this Flow gitFlow, string nameOfRelease)

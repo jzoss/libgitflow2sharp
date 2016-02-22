@@ -13,8 +13,8 @@ namespace LibGit2FlowSharp
 
         public static bool StartNewHotfix(this Flow gitFlow, string nameOfHotfix )
         {
-            var newBranch = gitFlow.Repository.CreateBranch($"{gitFlow.GetPrefixByBranch(FlowBranch.Feature)}/{nameOfHotfix}");
-            return true;            
+            // TODO: See if these similar methods should use a base metod to reduce code duplication    
+            throw new NotImplementedException();
         }
 
         public static bool CompleteHotfix(this Flow gitFlow, string nameOfHotfix)
