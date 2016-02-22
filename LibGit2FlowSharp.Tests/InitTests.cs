@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LibGit2FlowSharp.Enums;
 using LibGit2Sharp;
 using Xunit;
-using LibGit2FlowSharp;
 
 namespace LibGit2FlowSharp.Tests
 {
@@ -29,17 +24,22 @@ namespace LibGit2FlowSharp.Tests
         }
 
         [Fact]
-        public void InitFlowWithDefaultValues()
+        public void InitFlowSetsConfigToDefaultValues()
         {
-            using (var repo = new Repository(Testpath))
+            using (_testRepository = new Repository(Testpath))
             {
-                repo.Flow().Init(new GitFlowRepoSettings());
-
+                _testRepository.Flow().Init(new GitFlowRepoSettings());
+                
                 //TODO Finish 
-                Assert.Equal(repo.Config.Get<string>("gitflow.branch.master").Value,"master");
-                Assert.Equal(repo.Config.Get<string>("gitflow.branch.develop").Value, "develop");
-            }
-           
+                Assert.Equal(
+                    _testRepository.Config.Get<string>(_testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Master)).Value,
+                    GitFlowSetting.Master.GetAttribute<GitFlowConfigAttribute>().DefaultValue
+                    );
+                Assert.Equal(
+                    _testRepository.Config.Get<string>(_testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Develop)).Value,
+                    GitFlowSetting.Develop.GetAttribute<GitFlowConfigAttribute>().DefaultValue
+                    );
+            }           
         }
 
         [Fact]
@@ -49,7 +49,6 @@ namespace LibGit2FlowSharp.Tests
             {
                 Assert.True(_testRepository.Flow().IsInitialized());
             }
-
         }
 
         [Fact]
@@ -57,18 +56,19 @@ namespace LibGit2FlowSharp.Tests
         {
             using (_testRepository = new Repository(Testpath))
             {
-                var prefix = _testRepository.Flow().GetPrefixByBranch(GitFlowExtensions.FlowBranch.Develop);
+                var prefix = _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Develop);
                 Assert.NotNull(prefix);
                 Assert.NotEmpty(prefix);
             }
         }
+        
+
         [Fact]
         public void TestRepositoryContainsDevelopBranch()
         {
             using (_testRepository = new Repository(Testpath))
             {
-                var branch = _testRepository.Branches[ _testRepository.Flow().GetPrefixByBranch(GitFlowExtensions.FlowBranch.Develop)];
-                Assert.NotNull(branch);                
+                Assert.NotNull(_testRepository.Branches[ _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Develop)]);                
             }
         }
 
