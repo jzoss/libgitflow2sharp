@@ -32,11 +32,11 @@ namespace LibGit2FlowSharp.Tests
                 
                 //TODO Finish 
                 Assert.Equal(
-                    _testRepository.Config.Get<string>(_testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Master)).Value,
+                    _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Master),
                     GitFlowSetting.Master.GetAttribute<GitFlowConfigAttribute>().DefaultValue
                     );
                 Assert.Equal(
-                    _testRepository.Config.Get<string>(_testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Develop)).Value,
+                    _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Develop),
                     GitFlowSetting.Develop.GetAttribute<GitFlowConfigAttribute>().DefaultValue
                     );
             }           
