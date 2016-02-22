@@ -11,19 +11,18 @@ namespace LibGit2FlowSharp.Tests
 {
     public class InitTests
     {
-        private Flow _testFlow;
+        private Repository _testRepository;
         private const string Testpath = @"C:\test\";
 
         public InitTests()
-        {   
-            // could do the          
+        {                        
         }
 
 
         [Fact]
         public void TestFolderIsAGitRepository() 
         {
-            using (var repo = new Repository(Testpath))
+            using (_testRepository = new Repository(Testpath))
             {
             }
 
@@ -44,17 +43,42 @@ namespace LibGit2FlowSharp.Tests
         }
 
         [Fact]
-        public void FlowSetsRepository()
+        public void FlowIsInitialized()
         {
-            _testFlow = new Flow(new Repository(Testpath));
-            Assert.NotNull(_testFlow.Repository);            
+            using (_testRepository = new Repository(Testpath))
+            {
+                Assert.True(_testRepository.Flow().IsInitialized());
+            }
+
         }
 
         [Fact]
-        public void FlowIsInitialized()
+        public void TestPrefixIsSet()
         {
-            _testFlow = new Flow(new Repository(Testpath));
-            Assert.True(_testFlow.IsInitialized());
+            using (_testRepository = new Repository(Testpath))
+            {
+                var prefix = _testRepository.Flow().GetPrefixByBranch(GitFlowExtensions.FlowBranch.Develop);
+                Assert.NotNull(prefix);
+                Assert.NotEmpty(prefix);
+            }
+        }
+        [Fact]
+        public void TestRepositoryContainsDevelopBranch()
+        {
+            using (_testRepository = new Repository(Testpath))
+            {
+                var branch = _testRepository.Branches[ _testRepository.Flow().GetPrefixByBranch(GitFlowExtensions.FlowBranch.Develop)];
+                Assert.NotNull(branch);                
+            }
+        }
+
+        [Fact]
+        public void StartNewFeatureCreatesNewBranch()
+        {
+            using (_testRepository = new Repository(Testpath))
+            {
+                //_testRepository.Flow()._testFlow = new Flow(new Repository(T));
+            }
         }
     }
 }

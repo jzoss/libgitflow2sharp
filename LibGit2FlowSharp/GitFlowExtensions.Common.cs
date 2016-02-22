@@ -29,6 +29,10 @@ namespace LibGit2FlowSharp
             return setting.GetAttribute<GitFlowConfigAttribute>().ConfigName;
         }
 
+        internal static string GetPrefixByBranch(this Flow gitFlow, FlowBranch branch)
+        {
+            return gitFlow.Repository.Config.Get<string>($"gitflow.prefix.{Enum.GetName(typeof(FlowBranch), branch)?.ToLower()}")?.Value;
+        }
         public static string CurrentBranchLeafName(this Flow gitflow)
         {
             var repo = gitflow.Repository;

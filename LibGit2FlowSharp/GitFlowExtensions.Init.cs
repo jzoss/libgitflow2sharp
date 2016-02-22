@@ -44,8 +44,8 @@ namespace LibGit2FlowSharp
         public static bool IsInitialized(this Flow gitflow)
         {
             var repo = gitflow.Repository;
-            return repo.Config.Any(c => c.Key.StartsWith("gitflow.branch.master")) &&
-                       repo.Config.Any(c => c.Key.StartsWith("gitflow.branch.develop"));
+            return repo.Config.Any(c => c.Key.Equals("gitflow.branch.master")) &&
+                       repo.Config.Any(c => c.Key.Equals("gitflow.branch.develop"));
         }
     }
 	
