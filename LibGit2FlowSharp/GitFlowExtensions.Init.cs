@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using LibGit2FlowSharp.Attributes;
 using LibGit2FlowSharp.Enums;
+using LibGit2FlowSharp.Extensions;
 
 namespace LibGit2FlowSharp
 {

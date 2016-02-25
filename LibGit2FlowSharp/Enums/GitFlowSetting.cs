@@ -1,4 +1,4 @@
-﻿using System;
+﻿using LibGit2FlowSharp.Attributes;
 
 namespace LibGit2FlowSharp.Enums
 {
@@ -21,19 +21,4 @@ namespace LibGit2FlowSharp.Enums
         [GitFlowConfig("gitflow.prefix.versiontag", "")]
         VersionTag
     }
-
-
-    public class GitFlowConfigAttribute : Attribute
-    {
-        internal GitFlowConfigAttribute(string configName,string defaultValue ,string friendlyName ="")
-        {
-            ConfigName = configName;
-            DefaultValue = defaultValue;
-            FriendlyName = friendlyName;
-        }
-        public string ConfigName { get; private set; }
-        public string DefaultValue { get; private set; }
-        public string FriendlyName { get; private set; }
-    }
-
 }

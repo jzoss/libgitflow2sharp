@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LibGit2FlowSharp.Attributes;
 using LibGit2Sharp;
 using LibGit2FlowSharp.Enums;
+using LibGit2FlowSharp.Extensions;
 
 namespace LibGit2FlowSharp
 {
@@ -36,23 +33,22 @@ namespace LibGit2FlowSharp
         public static string CurrentBranchLeafName(this Flow gitflow)
         {
             var repo = gitflow.Repository;
-            string fullBranchName = repo.Head.Name;
+            var fullBranchName = repo.Head.CanonicalName;
             ConfigurationEntry<string> prefix = null;
 
             if (gitflow.IsOnFeatureBranch())
             {
-                prefix = repo.Config.Get<string>("gitflow.prefix.feature");
+                prefix = repo.Config.Get<string>(GitFlowSetting.Feature.GetAttribute<GitFlowConfigAttribute>().ConfigName);
             }
             if (gitflow.IsOnReleaseBranch())
             {
-                prefix = repo.Config.Get<string>("gitflow.prefix.release");
+                prefix = repo.Config.Get<string>(GitFlowSetting.Release.GetAttribute<GitFlowConfigAttribute>().ConfigName);
             }
             if (gitflow.IsOnHotfixBranch())
             {
-                prefix = repo.Config.Get<string>("gitflow.prefix.hotfix");
+                prefix = repo.Config.Get<string>(GitFlowSetting.HotFix.GetAttribute<GitFlowConfigAttribute>().ConfigName);
             }
             return prefix != null ? fullBranchName.Replace(prefix.Value, "") : fullBranchName;
-
         }
 
         public static string CurrentStatus(this Flow gitflow)

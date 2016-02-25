@@ -47,7 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\EnumExtensions.cs" />
+    <Compile Include="Attributes\GitFlowConfigAttribute.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Enums\GitFlowSetting.cs" />
     <Compile Include="Flow.cs" />
     <Compile Include="GitFlowExtensions.cs" />

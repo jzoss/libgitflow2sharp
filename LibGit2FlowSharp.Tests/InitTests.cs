@@ -1,4 +1,6 @@
-﻿using LibGit2FlowSharp.Enums;
+﻿using LibGit2FlowSharp.Attributes;
+using LibGit2FlowSharp.Enums;
+using LibGit2FlowSharp.Extensions;
 using LibGit2Sharp;
 using Xunit;
 
@@ -8,12 +10,7 @@ namespace LibGit2FlowSharp.Tests
     {
         private Repository _testRepository;
         private const string Testpath = @"C:\test\";
-
-        public InitTests()
-        {                        
-        }
-
-
+        
         [Fact]
         public void TestFolderIsAGitRepository() 
         {

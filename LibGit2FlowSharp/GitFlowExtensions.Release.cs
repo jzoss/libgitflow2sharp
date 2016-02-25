@@ -1,6 +1,5 @@
 ﻿using LibGit2FlowSharp.Enums;
 using System;
-using LibGit2Sharp;
 
 namespace LibGit2FlowSharp
 {
