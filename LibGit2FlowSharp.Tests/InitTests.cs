@@ -57,8 +57,7 @@ namespace LibGit2FlowSharp.Tests
                 Assert.NotNull(prefix);
                 Assert.NotEmpty(prefix);
             }
-        }
-        
+        }        
 
         [Fact]
         public void TestRepositoryContainsDevelopBranch()
@@ -74,8 +73,26 @@ namespace LibGit2FlowSharp.Tests
         {
             using (_testRepository = new Repository(Testpath))
             {
-                //_testRepository.Flow()._testFlow = new Flow(new Repository(T));
+                var fullBranchname = _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Feature) + "testFeature";
+                var newBranch = _testRepository.Branches[fullBranchname];
+                if (newBranch!=null)
+                    DeleteBranch(newBranch);
+
+                Assert.Null(_testRepository.Branches[fullBranchname]);
+                Assert.True(_testRepository.Flow().StartNewFeature("testFeature"));
+                newBranch = _testRepository.Branches[fullBranchname];
+                Assert.NotNull(newBranch);
+                DeleteBranch(newBranch);
             }
+        }
+
+        internal void DeleteBranch(Branch branch)
+        {
+            if (branch == null)
+                return;
+            if (branch.IsCurrentRepositoryHead)
+                _testRepository.Checkout(_testRepository.Branches[_testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Master)]);
+            _testRepository.Branches.Remove(branch);
         }
     }
 }

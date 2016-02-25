@@ -10,9 +10,9 @@ namespace LibGit2FlowSharp
             return IsOnSpecifiedBranch(gitFlow, GitFlowSetting.Release);
         }
 
-        public static bool StartNewRelease(this Flow gitFlow, string nameOfRelease)
+        public static bool StartNewRelease(this Flow gitFlow, string nameOfRelease, bool fetchRemoteFirst=false)
         {
-            throw new NotImplementedException();
+            return (gitFlow.StartNewBranch(GitFlowSetting.Develop, GitFlowSetting.Release, nameOfRelease,fetchRemoteFirst) != null);
         }
 
         public static bool CompleteRelease(this Flow gitFlow, string nameOfRelease)

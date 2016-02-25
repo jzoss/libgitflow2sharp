@@ -10,10 +10,9 @@ namespace LibGit2FlowSharp
             return IsOnSpecifiedBranch(gitFlow, GitFlowSetting.HotFix);
         }
 
-        public static bool StartNewHotfix(this Flow gitFlow, string nameOfHotfix )
+        public static bool StartNewHotfix(this Flow gitFlow, string nameOfHotfix, bool fetchRemoteFirst=false)
         {
-            // TODO: See if these similar methods should use a base metod to reduce code duplication    
-            throw new NotImplementedException();
+            return (gitFlow.StartNewBranch(GitFlowSetting.Master, GitFlowSetting.HotFix, nameOfHotfix, fetchRemoteFirst)!=null);
         }
 
         public static bool CompleteHotfix(this Flow gitFlow, string nameOfHotfix)

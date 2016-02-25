@@ -51,6 +51,27 @@ namespace LibGit2FlowSharp
             return prefix != null ? fullBranchName.Replace(prefix.Value, "") : fullBranchName;
         }
 
+        internal static Branch GetBranch(this Flow gitFlow, GitFlowSetting branch, string leafname="")
+        {
+            return gitFlow.Repository.Branches[gitFlow.GetPrefixByBranch(branch) + leafname];
+        }
+
+        internal static Branch StartNewBranch(this Flow gitFlow, GitFlowSetting originationBranch,GitFlowSetting branchBase, string leafname, bool shouldFetchRemote=false)
+        {
+            //TODO: Handle fetching from remote 
+            if (!IsOnSpecifiedBranch(gitFlow, originationBranch))
+            {
+                var currentBranch = gitFlow.Repository.Checkout(gitFlow.GetBranch(originationBranch));
+                //TODO: Handle non-clean checkout exceptions
+
+                // Don't know if this check really is needed
+                if (currentBranch?.FriendlyName != gitFlow.GetPrefixByBranch(originationBranch))
+                    return null;
+            }
+            var newBranch = gitFlow.Repository.CreateBranch($"{gitFlow.GetPrefixByBranch(branchBase)}{leafname}");
+            return gitFlow.Repository.Checkout(newBranch);
+        }
+
         public static string CurrentStatus(this Flow gitflow)
         {
             var leafName = gitflow.CurrentBranchLeafName();
@@ -66,5 +87,6 @@ namespace LibGit2FlowSharp
 
             return status;
         }
+
     }
 }
