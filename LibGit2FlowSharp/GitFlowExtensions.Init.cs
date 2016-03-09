@@ -1,13 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using LibGit2FlowSharp.Attributes;
 using LibGit2FlowSharp.Enums;
 using LibGit2FlowSharp.Extensions;
+using LibGit2Sharp;
 
 namespace LibGit2FlowSharp
 {
     public static partial class GitFlowExtensions
     {
-        public static void Init(this Flow gitFlow, GitFlowRepoSettings settings)
+        public static void Init(this Flow gitFlow, GitFlowRepoSettings settings, Signature author)
         {
             var repo = gitFlow.Repository;
             //Only init if it is not initialized 
@@ -18,18 +20,28 @@ namespace LibGit2FlowSharp
             if (gitFlow.IsEmptyRepository())
             {
                 //TODO: Decide if Init should create necesarry branches too?
+                //Create Master branch 
+                Signature committer = author;
+                CommitOptions opts = new CommitOptions();
+                opts.AllowEmptyCommit = true;
+                repo.Commit("Initial commit", author, committer, opts);
+                //Now make Dev
             }
+
+            SetupMasterBranch(repo, settings.Settings[GitFlowSetting.Master], author);
+
+            //TODO.. Repo has branches 
 
             settings.Settings
                     .ToList()
                     .ForEach(item =>
                         repo.Config.Set(GetConfigKey(item.Key), item.Value, settings.ConfigurationLocation)
-                    );              
+                    );
         }
 
         public static void UnInit(this Flow gitFlow)
         {
-           //Todo: Decide if there should be a Cleanup function to remove the config settings 
+            //Todo: Decide if there should be a Cleanup function to remove the config settings 
         }
 
         //private void SetConfigValue(Repository repository, ) 
@@ -41,11 +53,11 @@ namespace LibGit2FlowSharp
         public static bool IsInitialized(this Flow gitFlow)
         {
             var repo = gitFlow.Repository;
-            var requiredBranches = new[] {GitFlowSetting.Develop, GitFlowSetting.Master, GitFlowSetting.Release};
+            var requiredBranches = new[] { GitFlowSetting.Develop, GitFlowSetting.Master, GitFlowSetting.Release };
 
             return
                 requiredBranches.Select(branch => branch.GetAttribute<GitFlowConfigAttribute>().ConfigName)
-                    .All(configKey =>repo.Config.Any(configEntry => configEntry.Key == configKey));            
+                    .All(configKey => repo.Config.Any(configEntry => configEntry.Key == configKey));
         }
 
         /// <summary>
@@ -57,6 +69,33 @@ namespace LibGit2FlowSharp
         {
             return !gitFlow.Repository.Branches.Any();
         }
+
+        #region private init methods
+
+        private static void SetupMasterBranch(Repository repository, string masterName, Signature author)
+        {
+            //We know we have a master branch , so check to see if the gitflow master is different and if it is 
+            if (masterName != "master" && repository.Branches[masterName] != null)
+            {
+                repository.CreateBranch(masterName);
+            }
+        }
+
+        private static void CreateDev(Repository repository, string branchName, Signature author)
+        {
+            Signature committer = author;
+            CommitOptions opts = new CommitOptions();
+            opts.AllowEmptyCommit = true;
+
+            repository.Commit("Initial commit", author, committer, opts);
+        }
+
+        private static void GetRemoteBranch()
+        {
+            
+        }
+
+        #endregion
     }
-	
+
 }
