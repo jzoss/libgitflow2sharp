@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using LibGit2FlowSharp.Attributes;
 using LibGit2FlowSharp.Enums;
@@ -46,6 +47,20 @@ namespace LibGit2FlowSharp.Tests
                     _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Develop),
                     GitFlowSetting.Develop.GetAttribute<GitFlowConfigAttribute>().DefaultValue
                     );
+            }
+        }
+
+        public void InitFlowCreatesBranches()
+        {
+
+            using (_testRepository = new Repository(_testPath))
+            {
+                _testRepository.Flow().Init(new GitFlowRepoSettings(), author);
+                Assert.Equal(_testRepository.Branches.Count(), 2);
+                Assert.NotNull(_testRepository.Branches.FirstOrDefault(
+                        x => string.Equals(x.FriendlyName, GitFlowSetting.Master.GetAttribute<GitFlowConfigAttribute>().DefaultValue, StringComparison.OrdinalIgnoreCase)));
+                Assert.NotNull(_testRepository.Branches.FirstOrDefault(
+                        x => string.Equals(x.FriendlyName, GitFlowSetting.Develop.GetAttribute<GitFlowConfigAttribute>().DefaultValue, StringComparison.OrdinalIgnoreCase)));
             }
         }
 

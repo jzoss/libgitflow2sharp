@@ -19,6 +19,7 @@ namespace LibGit2FlowSharp
 
             if (gitFlow.IsEmptyRepository())
             {
+                Log("New Repository Detected - Creating Master Branch");
                 //TODO: Decide if Init should create necesarry branches too?
                 //Create Master branch 
                 Signature committer = author;
@@ -29,6 +30,8 @@ namespace LibGit2FlowSharp
             }
 
             SetupMasterBranch(repo, settings.Settings[GitFlowSetting.Master], author);
+            SetupDevBranch(repo, settings.Settings[GitFlowSetting.Develop], settings.Settings[GitFlowSetting.Master],
+                author);
 
             //TODO.. Repo has branches 
 
@@ -37,6 +40,8 @@ namespace LibGit2FlowSharp
                     .ForEach(item =>
                         repo.Config.Set(GetConfigKey(item.Key), item.Value, settings.ConfigurationLocation)
                     );
+
+            Log("Init Complete");
         }
 
         public static void UnInit(this Flow gitFlow)
@@ -75,19 +80,21 @@ namespace LibGit2FlowSharp
         private static void SetupMasterBranch(Repository repository, string masterName, Signature author)
         {
             //We know we have a master branch , so check to see if the gitflow master is different and if it is 
-            if (masterName != "master" && repository.Branches[masterName] != null)
+            Branch branch;
+            if (masterName != "master" && !repository.TryGetBranch(masterName, out branch))
             {
                 repository.CreateBranch(masterName);
             }
         }
 
-        private static void CreateDev(Repository repository, string branchName, Signature author)
+        private static void SetupDevBranch(Repository repository, string branchName, string masterName, Signature author)
         {
-            Signature committer = author;
-            CommitOptions opts = new CommitOptions();
-            opts.AllowEmptyCommit = true;
-
-            repository.Commit("Initial commit", author, committer, opts);
+            Log("Setting Up Dev Branch");
+            var branch = repository.AddGetBranch(branchName, author,masterName);
+            CheckoutOptions options = new CheckoutOptions();
+            options.CheckoutModifiers = CheckoutModifiers.Force;
+            repository.TryCheckout(branch, true);
+            Log("Checked out Dev Branch");
         }
 
         private static void GetRemoteBranch()

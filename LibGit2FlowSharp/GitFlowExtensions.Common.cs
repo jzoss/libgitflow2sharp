@@ -72,6 +72,7 @@ namespace LibGit2FlowSharp
             return gitFlow.Repository.Checkout(newBranch);
         }
 
+
         public static string CurrentStatus(this Flow gitflow)
         {
             var leafName = gitflow.CurrentBranchLeafName();
