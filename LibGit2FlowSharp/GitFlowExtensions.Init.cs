@@ -23,8 +23,7 @@ namespace LibGit2FlowSharp
                 //TODO: Decide if Init should create necesarry branches too?
                 //Create Master branch 
                 Signature committer = author;
-                CommitOptions opts = new CommitOptions();
-                opts.AllowEmptyCommit = true;
+                var opts = new CommitOptions {AllowEmptyCommit = true};
                 repo.Commit("Initial commit", author, committer, opts);
                 //Now make Dev
             }

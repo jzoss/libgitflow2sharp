@@ -20,6 +20,16 @@ namespace LibGit2FlowSharp
             InitSettings();
         }
 
+        public string GetSetting(GitFlowSetting setting)
+        {
+            return Settings.ContainsKey(setting) ? Settings[setting] : null;
+        }
+
+        public void SetSetting(GitFlowSetting setting, string settingValue)
+        {
+            Settings[setting] = settingValue;
+        }
+
         private void InitSettings()
         {
             foreach (GitFlowSetting setting in Enum.GetValues(typeof(GitFlowSetting)))
