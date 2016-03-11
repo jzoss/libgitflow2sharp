@@ -57,6 +57,7 @@
     <Compile Include="GitFlowExtensions.Release.cs" />
     <Compile Include="GitFlowExtensions.Support.cs" />
     <Compile Include="GitFlowRepoSettings.cs" />
+    <Compile Include="BranchInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryHelpers.cs" />
   </ItemGroup>
