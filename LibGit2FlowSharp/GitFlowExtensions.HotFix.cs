@@ -15,7 +15,17 @@ namespace LibGit2FlowSharp
             return (gitFlow.StartNewBranch(GitFlowSetting.Master, GitFlowSetting.HotFix, nameOfHotfix, fetchRemoteFirst)!=null);
         }
 
-        public static bool CompleteHotfix(this Flow gitFlow, string nameOfHotfix)
+        public static bool FinishHotfix(this Flow gitFlow, string nameOfHotfix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool PublishHotfix(this Flow gitFlow, string nameOfHotfix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool TrackHotfix(this Flow gitFlow, string nameOfHotfix)
         {
             throw new NotImplementedException();
         }
