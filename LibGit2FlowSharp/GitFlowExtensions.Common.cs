@@ -68,7 +68,9 @@ namespace LibGit2FlowSharp
                 if (currentBranch?.FriendlyName != gitFlow.GetPrefixByBranch(originationBranch))
                     return null;
             }
-            var newBranch = gitFlow.Repository.CreateBranch($"{gitFlow.GetPrefixByBranch(branchBase)}{leafname}");
+            var newBranchName = $"{gitFlow.GetPrefixByBranch(branchBase)}{leafname}";
+            var newBranch = gitFlow.Repository.AddGetBranch(newBranchName);
+            //var newBranch = gitFlow.Repository.CreateBranch($"{gitFlow.GetPrefixByBranch(branchBase)}{leafname}");
             return gitFlow.Repository.Checkout(newBranch);
         }
 

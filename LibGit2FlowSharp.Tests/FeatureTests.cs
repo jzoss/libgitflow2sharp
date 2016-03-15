@@ -9,16 +9,19 @@ using Xunit;
 
 namespace LibGit2FlowSharp.Tests
 {
+
+    [Collection("Repo collection")]
     public class FeatureTests : IDisposable
     {
         private Repository _testRepository;
-        private const string basepath = @"C:\test\";
         private string _testPath;
         Signature author = new Signature("Test", "UnitTest@xunit.com", DateTime.Now);
+        private RepoFixture fixture;
 
-        public FeatureTests()
+        public FeatureTests(RepoFixture fixture)
         {
-            _testPath = TestHelpers.CreateEmptyRepo(basepath);
+            this.fixture = fixture;
+            _testPath = fixture.LocalRepoPath;
         }
 
         [Fact]
@@ -44,7 +47,7 @@ namespace LibGit2FlowSharp.Tests
 
         public void Dispose()
         {
-            TestHelpers.CleanRepoDir(basepath);
+            //TestHelpers.CleanRepoDir(basepath);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using LibGit2FlowSharp.Enums;
+using LibGit2Sharp;
 
 namespace LibGit2FlowSharp
 {
@@ -8,5 +9,15 @@ namespace LibGit2FlowSharp
         {
             return IsOnSpecifiedBranch(gitFlow, GitFlowSetting.Develop);
         }
+
+
+        //public static bool PullDevelopBranch(this Flow gitFlow)
+        //{
+        //    PullOptions options = new PullOptions();
+        //    options.
+        //   gitFlow.Repository.Network.Pull()
+        //}
+
+
     }
 }

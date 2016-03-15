@@ -15,9 +15,8 @@ namespace LibGit2FlowSharp
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="branchName"></param>
-        /// <param name="author"></param>
         /// <param name="branchTarget"></param>
-        internal static Branch AddGetBranch(this Repository repository, string branchName, Signature author, string branchTarget = "HEAD")
+        internal static Branch AddGetBranch(this Repository repository, string branchName,string branchTarget = "HEAD", bool track = false)
         {
             Branch branch;
             //Branch already has been created  
@@ -26,7 +25,15 @@ namespace LibGit2FlowSharp
                 if (!repository.TryGetRemoteBranch(branchName, out branch))
                 {
                     //No branch made.. create branch
-                   branch = repository.CreateBranch(branchName,branchTarget);
+                    GitFlowExtensions.Log("Creating Branch : " + branchName);
+                    branch = repository.CreateBranch(branchName,branchTarget);
+                    if (track)
+                    {
+                        Remote remote = repository.Network.Remotes["origin"];
+                        repository.Branches.Update(branch, 
+                            b =>b.Remote = remote.Name,
+                            b => b.UpstreamBranch = branch.CanonicalName);
+                    }
                 }
             }
             return branch;

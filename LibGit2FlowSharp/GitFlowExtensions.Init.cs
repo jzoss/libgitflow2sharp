@@ -89,7 +89,7 @@ namespace LibGit2FlowSharp
         private static void SetupDevBranch(Repository repository, string branchName, string masterName, Signature author)
         {
             Log("Setting Up Dev Branch");
-            var branch = repository.AddGetBranch(branchName, author,masterName);
+            var branch = repository.AddGetBranch(branchName,masterName,track:true);
             CheckoutOptions options = new CheckoutOptions();
             options.CheckoutModifiers = CheckoutModifiers.Force;
             repository.TryCheckout(branch, true);

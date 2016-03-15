@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,12 +22,12 @@ namespace LibGit2FlowSharp.Tests
             repo.Branches.Remove(branch);
         }
 
-        internal static string CreateEmptyRepo(string basepath,string dirName = "emptyRepo")
+        internal static string CreateEmptyRepo(string basepath,string dirName = "emptyRepo", bool isBare = false)
         {
             var path = Path.Combine(basepath, dirName);
             Directory.CreateDirectory(path);
             Thread.Sleep(1000);
-            Repository.Init(path);
+            Repository.Init(path,isBare);
             return path;
         }
 
@@ -60,6 +61,37 @@ namespace LibGit2FlowSharp.Tests
                 fileInfo.Delete();
             }
             Directory.Delete(directory);
+        }
+
+
+        internal static Commit AddCommitToRepo(IRepository repository,Signature author = null)
+        {
+            if (author == null)
+            {
+                author = new Signature("Test", "UnitTest@xunit.com", DateTime.Now);
+            }
+
+            string random = Path.GetRandomFileName();
+            string filename = random + ".txt";
+
+            Touch(repository.Info.WorkingDirectory, filename, random);
+
+            repository.Stage(filename);
+
+            return repository.Commit("New commit", author, author);
+        }
+
+        internal static string Touch(string parent, string file, string content = null, Encoding encoding = null)
+        {
+            string filePath = Path.Combine(parent, file);
+            string dir = Path.GetDirectoryName(filePath);
+            Debug.Assert(dir != null);
+
+            Directory.CreateDirectory(dir);
+
+            File.WriteAllText(filePath, content ?? string.Empty, encoding ?? Encoding.ASCII);
+
+            return filePath;
         }
 
     }
