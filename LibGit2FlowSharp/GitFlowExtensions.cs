@@ -15,7 +15,7 @@ namespace LibGit2FlowSharp
             
         }
 
-        internal static void LogError(string message, string error)
+        internal static void LogError(string message, string error = "")
         {
 
         }

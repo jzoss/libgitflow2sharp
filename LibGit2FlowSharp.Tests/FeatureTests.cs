@@ -35,10 +35,30 @@ namespace LibGit2FlowSharp.Tests
                     TestHelpers.DeleteBranch(_testRepository, newBranch);
 
                 Assert.Null(_testRepository.Branches[fullBranchname]);
-                Assert.True(_testRepository.Flow().StartNewFeature("testFeature"));
+                var info = _testRepository.Flow().StartNewFeature("testFeature");
+                Assert.NotNull(info);
                 newBranch = _testRepository.Branches[fullBranchname];
                 Assert.NotNull(newBranch);
-                TestHelpers.DeleteBranch(_testRepository,newBranch);
+                //TestHelpers.DeleteBranch(_testRepository,newBranch);
+            }
+        }
+
+        [Fact]
+        public void Feature_PublishFeatureCreatesRemote()
+        {
+            using (_testRepository = new Repository(_testPath))
+            {
+                string branchName = TestHelpers.RandomString(8);
+                var fullBranchname = _testRepository.Flow().GetPrefixByBranch(GitFlowSetting.Feature) + branchName;
+                var newBranch = _testRepository.Branches[fullBranchname];
+                if (newBranch != null)
+                    TestHelpers.DeleteBranch(_testRepository, newBranch);
+
+                var info = _testRepository.Flow().StartNewFeature(branchName);
+                Assert.False(_testRepository.Branches[fullBranchname].IsTracking);
+                _testRepository.Flow().PublishFeature(branchName);
+                Assert.True(_testRepository.Branches[fullBranchname].IsTracking);
+                //TestHelpers.DeleteBranch(_testRepository,newBranch);
             }
         }
 

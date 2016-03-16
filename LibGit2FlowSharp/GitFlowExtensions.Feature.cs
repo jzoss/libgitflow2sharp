@@ -14,9 +14,12 @@ namespace LibGit2FlowSharp
             return IsOnSpecifiedBranch(gitFlow, GitFlowSetting.Feature);
         }
 
-        public static bool StartNewFeature(this Flow gitFlow, string nameOfFeature, bool fetchRemoteFirst=false)
+        public static BranchInfo StartNewFeature(this Flow gitFlow, string nameOfFeature, bool fetchRemoteFirst=false)
         {
-            return (gitFlow.StartNewBranch(GitFlowSetting.Develop,GitFlowSetting.Feature,nameOfFeature,fetchRemoteFirst) != null);
+            var branch = gitFlow.StartNewBranch(GitFlowSetting.Develop, GitFlowSetting.Feature, nameOfFeature,
+                fetchRemoteFirst);
+
+            return new BranchInfo(branch, gitFlow.Prefix.Feature);
         }
 
 
@@ -27,12 +30,14 @@ namespace LibGit2FlowSharp
 
         public static bool PublishFeature(this Flow gitFlow, string nameOfFeature)
         {
-            throw new NotImplementedException();
+            var fullName = GetFullBranchName(gitFlow.Prefix.Feature, nameOfFeature);
+            return gitFlow.Publish(fullName);
         }
 
         public static bool TrackFeature(this Flow gitFlow, string nameOfFeature)
         {
-            throw new NotImplementedException();
+            var fullName = GetFullBranchName(gitFlow.Prefix.Feature, nameOfFeature);
+            return gitFlow.Track(fullName);
         }
 
         public static bool DiffFeature(this Flow gitFlow, string nameOfFeature)
@@ -58,24 +63,7 @@ namespace LibGit2FlowSharp
 
         public static IEnumerable<BranchInfo> GetAllFeatureBranches(this Flow gitFlow)
         {
-            var repo = gitFlow.Repository;
-           
-            if (gitFlow.IsInitialized())
-            {
-                var featurePrefix = gitFlow.GetPrefixByBranch(GitFlowSetting.Feature);
-                var featureBranches =
-                       repo.Branches.Where(b => !b.IsRemote && b.Name.StartsWith(featurePrefix))
-                           .Select(c => new BranchInfo(c,featurePrefix)).ToList();
-
-                var remoteFeatureBranches =
-                    repo.Branches.Where(b => b.IsRemote && b.Name.Contains(featurePrefix)
-                    && !repo.Branches.Any(br => !br.IsRemote && br.IsTracking && br.TrackedBranch.CanonicalName == b.CanonicalName))
-                      .Select(c => new BranchInfo(c, featurePrefix)).ToList();
-
-                featureBranches.AddRange(remoteFeatureBranches);
-                return featureBranches;
-            }
-            return new List<BranchInfo>();
+            return gitFlow.GetAllBranchesByPrefix(gitFlow.Prefix.Feature);
         }
     }
 }

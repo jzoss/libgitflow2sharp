@@ -81,6 +81,14 @@ namespace LibGit2FlowSharp.Tests
             return repository.Commit("New commit", author, author);
         }
 
+        internal static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         internal static string Touch(string parent, string file, string content = null, Encoding encoding = null)
         {
             string filePath = Path.Combine(parent, file);

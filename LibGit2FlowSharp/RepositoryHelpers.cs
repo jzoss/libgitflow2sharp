@@ -16,7 +16,7 @@ namespace LibGit2FlowSharp
         /// <param name="repository"></param>
         /// <param name="branchName"></param>
         /// <param name="branchTarget"></param>
-        internal static Branch AddGetBranch(this Repository repository, string branchName,string branchTarget = "HEAD", bool track = false)
+        internal static Branch AddGetBranch(this Repository repository, string branchName,string branchTarget = "HEAD", bool track = true)
         {
             Branch branch;
             //Branch already has been created  
@@ -29,17 +29,20 @@ namespace LibGit2FlowSharp
                     branch = repository.CreateBranch(branchName,branchTarget);
                     if (track)
                     {
-                        Remote remote = repository.Network.Remotes["origin"];
-                        repository.Branches.Update(branch, 
-                            b =>b.Remote = remote.Name,
-                            b => b.UpstreamBranch = branch.CanonicalName);
+                        repository.SetRemoteBranch(branch);
                     }
                 }
             }
             return branch;
         }
 
-
+        internal static void SetRemoteBranch(this Repository repository, Branch branch, string remoteName = "origin")
+        {
+            Remote remote = repository.Network.Remotes[remoteName];
+            repository.Branches.Update(branch,
+                b => b.Remote = remote.Name,
+                b => b.UpstreamBranch = branch.CanonicalName);
+        }
 
         public static bool TryCheckout(this Repository repository, Branch branch, bool force = false)
         {
@@ -60,6 +63,20 @@ namespace LibGit2FlowSharp
             }
            
             return true;
+        }
+
+        public static bool TryCheckout(this Repository repository, string canonicalName, bool force = false)
+        {
+            var branch = repository.Branches.FirstOrDefault(
+                        x => string.Equals(x.CanonicalName, canonicalName, StringComparison.OrdinalIgnoreCase));
+
+            if (branch == null)
+            {
+                GitFlowExtensions.LogError("Branch not found ");
+                return false;
+            }
+            return repository.TryCheckout(branch, force);
+
         }
 
 

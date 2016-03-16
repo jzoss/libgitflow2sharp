@@ -53,7 +53,8 @@ namespace LibGit2FlowSharp.Tests
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            TestHelpers.DeleteReadOnlyDirectory(_localRepoPath);
+            TestHelpers.DeleteReadOnlyDirectory(_remoteRepoPath);
         }
 
         #endregion
